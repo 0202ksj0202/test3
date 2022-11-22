@@ -1,7 +1,6 @@
 {
-  "name": "test2_seongjun-kim",
+  "name": "test3_seongjun-kim",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,6 +9,17 @@
   "author": "Seongjun Kim",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
-  }
+    "express": "^4.18.2",
+    "express-handlebars": "^6.0.6"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0202ksj0202/test2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0202ksj0202/test2/issues"
+  },
+  "homepage": "https://github.com/0202ksj0202/test2#readme",
+  "description": ""
 }

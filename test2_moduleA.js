@@ -20,6 +20,21 @@ function init(){
 
 function getBSD(){
     return new Promise(function(resolve, reject){
+        var BSDstudents = [];
+        for(var i=0; i<students.length; i++){
+            if(students.program == "BSD")
+            BSDstudents.push(students[i]);
+        }
+        if(BSDstudents.length == 0){
+            reject("no results returned");
+        }
+        resolve(BSDstudents);
+
+    });
+};
+
+function allStudents(){
+    return new Promise(function(resolve, reject){
         var allstudents = [];
         for(var i=0; i<students.length; i++){
             allstudents.push(students[i]);
@@ -33,17 +48,24 @@ function getBSD(){
 };
 
 
+
+
 function highGPA(){
-    var gpa_student = [];
+    var highGPA = 0;
+    var highGPA_student;
     return new Promise(function(resolve, reject){
         for(var i=0; i<students.length; i++){
-
-            gpa_student.push(Math.max(students[i].gpa));
-            
-            
+            if(students[i].gpa > highGPA){
+                highGPA = students[i].gpa;
+                highGPA_student = students[i];
+            }
         }
-        resolve();
-        
+
+        if(highGPA_student == null){
+            reject("Failed finding the student with the highest GPA")
+        }
+
+        resolve(highGPA_student);
     });
 
 };
@@ -51,5 +73,6 @@ function highGPA(){
 module.exports = {
     init,
     getBSD,
-    highGPA
+    highGPA,
+    allStudents
 };

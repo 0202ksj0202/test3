@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 var path = require("path");
 var test_module = require("./test2_moduleA.js")
+var exphbs = require("express-handlebars");
 
 var HTTP_PORT = process.env.PORT || 8080;
 
@@ -9,21 +10,48 @@ function onHttpStart(){
     console.log("Express http server listening on: " + HTTP_PORT);
 }
 
-app.get("/", (req, res) => {
-    var text = "<h2> Declaration </h2> <br> I acknowldege the College's academic integrity policy - and my own integrity - remain in effect whether my work is done remotely or on site. Any test and assignment is an act of trust between me and my instructor ... even no one is watching. I declare I will not break that trust. <br> Name: <mark>Seongjun Kim </mark> <br>Student Number: <mark>157681206</mark> <br> <a href='/BSD'>Click to visit BSD students </a> <br> <a href='/highGPA'>Click to see who has the highest GPA</a>"
-    res.send(text);
+app.use(express.urlencoded({extended: true}));
+
+app.engine(".hbs", exphbs.engine({
+    extname: ".hbs",
+    defaultLayer: "main",
+  }));
+  
+
+app.set("view engine", ".hbs");
+
+app.get("/", function(req,res){
+    res.redirect("/home");
 });
 
+app.get("/home", function(req,res){
+    res.render("home");
+  });
+
+/*
 app.get("/BSD", (req, res) => {
     test_module.getBSD().then((data)=>{
-        res.json(data);
+        res.render("students", {students: data});
+    }).catch(()=>{
+        res.render({message: "no results"});
+    });
+});
+*/
+
+app.get("/allStudents", (req, res) => {
+    test_module.allStudents().then((data)=>{
+        res.render("students", {students: data});
+    }).catch(()=>{
+        res.render({message: "no results"});
     });
 });
 
 
 app.get("/highGPA", (req, res) => {
     test_module.highGPA().then((data)=>{
-        res.json(data);
+        res.render("student", {student: data});
+    }).catch((err)=>{
+        res.render({message: "no results"});
     });
 });
 
